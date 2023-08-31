@@ -14,7 +14,7 @@ int main() {
   while (t--) {
     int n; cin >> n;
     vector<int> a(n);
-    for (auto& i : a) {
+    for (auto &i : a) {
       cin >> i;
     }
     int mx_pos = -INF, mx_neg = -INF;
@@ -22,7 +22,6 @@ int main() {
     int last = a[0];
     if (last > 0) mx_pos = last;
     else mx_neg = last;
-    int cnt = 0;
     for (auto i : a) {
       if (last > 0 && i > 0) {
         mx_pos = max(mx_pos, i);
