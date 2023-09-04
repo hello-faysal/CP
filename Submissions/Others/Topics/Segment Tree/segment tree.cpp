@@ -3,18 +3,18 @@ using namespace std;
 
 // @author: faysalahammedchowdhury
 
-#define ll long long
+#define int long long
 const int N = 1e5 + 9;
 int a[N];
 
 struct ST {
-  ll tree[4 * N];
+  int tree[4 * N];
   ST() {
     memset(tree, 0, sizeof(tree));
   }
   void build(int n, int b, int e) {
     if(b == e) {
-      tree[n] = a[b];
+      tree[n] = a[b]; // change here
       return;
     }
     int mid = (b + e) >> 1, l = n << 1, r = l + 1;
@@ -25,7 +25,7 @@ struct ST {
   void upd(int n, int b, int e, int i, int x) {
     if(b > i || e < i) return;
     if(b == e && b == i) {
-      tree[n] = x;
+      tree[n] = x; // change here
       return;
     }
     int mid = (b + e) >> 1, l = n << 1, r = l + 1;
@@ -33,12 +33,12 @@ struct ST {
     upd(r, mid + 1, e, i, x);
     tree[n] = tree[l] + tree[r]; // change here
   }
-  ll query(int n, int b, int e, int i, int j) {
+  int query(int n, int b, int e, int i, int j) {
     if(b > j || e < i) return 0; // return appropriate value
     if(b >= i && e <= j) return tree[n];
     int mid = (b + e) >> 1, l = n << 1, r = l + 1;
-    ll L = query(l, b, mid, i, j);
-    ll R = query(r, mid + 1, e, i, j);
+    int L = query(l, b, mid, i, j);
+    int R = query(r, mid + 1, e, i, j);
     return (L + R); // change this
   }
 } st;
