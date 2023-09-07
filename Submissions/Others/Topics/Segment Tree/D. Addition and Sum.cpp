@@ -7,7 +7,7 @@ const int N = 1e5 + 9;
 int a[N];
 
 struct ST {
-  int tree[4 * N], lazy[4 * N];
+  long long tree[4 * N], lazy[4 * N];
   ST() {
     memset(tree, 0, sizeof(tree));
     memset(lazy, 0, sizeof(lazy));
@@ -46,13 +46,13 @@ struct ST {
     upd(r, mid + 1, e, i, j, x);
     tree[n] = tree[l] + tree[r]; // change here
   }
-  int query(int n, int b, int e, int i, int j) {
+  long long query(int n, int b, int e, int i, int j) {
     push(n, b, e);
     if(b > j || e < i) return 0; // return appropriate value
     if(b >= i && e <= j) return tree[n];
     int mid = (b + e) >> 1, l = n << 1, r = l + 1;
-    int L = query(l, b, mid, i, j);
-    int R = query(r, mid + 1, e, i, j);
+    long long L = query(l, b, mid, i, j);
+    long long R = query(r, mid + 1, e, i, j);
     return L + R; // change here
   }
 } st;
@@ -60,6 +60,22 @@ struct ST {
 int main() {
   ios_base::sync_with_stdio(0);
   cin.tie(0);
+
+  int n, m; cin >> n >> m;
+  st.build(1, 1, n);
+  while(m--) {
+    int type; cin >> type;
+    if(type == 1) {
+      int l, r, x; cin >> l >> r >> x;
+      l++;
+      st.upd(1, 1, n, l, r, x);
+    }
+    else {
+      int l, r; cin >> l >> r;
+      l++;
+      cout << st.query(1, 1, n, l , r) << '\n';
+    }
+  }
 
   return 0;
 }

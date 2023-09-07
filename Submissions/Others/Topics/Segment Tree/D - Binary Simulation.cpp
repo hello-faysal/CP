@@ -14,11 +14,13 @@ struct ST {
   }
   void push(int n, int b, int e) {
     if(lazy[n] == 0) return;
-    tree[n] += lazy[n] * (e - b + 1); // change here
+    tree[n] = (e - b + 1) - tree[n]; // change here
     if(b != e) {
       int l = n << 1, r = l + 1;
       lazy[l] += lazy[n]; // change here
+      lazy[l] = lazy[l] % 2;
       lazy[r] += lazy[n]; // change here
+      lazy[r] = lazy[r] % 2;
     }
     lazy[n] = 0;
   }
@@ -33,17 +35,18 @@ struct ST {
     build(r, mid + 1, e);
     tree[n] = tree[l] + tree[r]; // change here
   }
-  void upd(int n, int b, int e, int i, int j, int x) {
+  void upd(int n, int b, int e, int i, int j) {
     push(n, b, e);
     if(b > j || e < i) return;
     if(b >= i && e <= j) {
-      lazy[n] += x; // change here
+      lazy[n] += 1; // change here
+      lazy[n] = lazy[n] % 2;
       push(n, b, e);
       return;
     }
     int mid = (b + e) >> 1, l = n << 1, r = l + 1;
-    upd(l, b, mid, i, j, x);
-    upd(r, mid + 1, e, i, j, x);
+    upd(l, b, mid, i, j);
+    upd(r, mid + 1, e, i, j);
     tree[n] = tree[l] + tree[r]; // change here
   }
   int query(int n, int b, int e, int i, int j) {
@@ -61,5 +64,29 @@ int main() {
   ios_base::sync_with_stdio(0);
   cin.tie(0);
 
+  int t, cs = 0; cin >> t;
+  while(t--) {
+    string s; cin >> s;
+    int n = s.size();
+    for(int i = 1; i <= n; i++) {
+      a[i] = s[i - 1] - '0';
+    }
+
+    st.build(1, 1, n);
+    cout << "Case " << ++cs << ":\n";
+    int q; cin >> q;
+    while(q--) {
+      char type; cin >> type;
+      if(type == 'I') {
+        int l, r; cin >> l >> r;
+        st.upd(1, 1, n, l, r);
+      }
+      else {
+        int i; cin >> i;
+        cout << st.query(1, 1, n, i, i) << '\n';
+      }
+    }
+  }
+  
   return 0;
 }
