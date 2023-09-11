@@ -21,13 +21,13 @@ void solve() {
         if(last == 0) cnt++;
       }
       else {
-        int x = ceil(log2(cnt + 1));
+        int x = log2(cnt) + 1;
         mx = max(mx, x);
         cnt = 0;
       }
       last = a[i];
     }
-    int x = ceil(log2(cnt + 1));
+    int x = log2(cnt) + 1;
     mx = max(mx, x);
     ans = min(ans, mx);
   }
