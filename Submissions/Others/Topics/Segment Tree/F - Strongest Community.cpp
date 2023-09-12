@@ -7,41 +7,41 @@ const int N = 1e5 + 9;
 int a[N];
 
 struct node {
-  pair<int, int> first; 
-  pair<int, int> middle; 
-  pair<int, int> last; 
+  int first_element, first_element_cnt;
+  int last_element, last_element_cnt;
+  int max_cnt;
 };
 
-node merge(node a, node b) {
-  pair<int, int> p1 = a.first;
-  pair<int, int> p2 = a.middle;
-  pair<int, int> p3 = a.last;
-  pair<int, int> p4 = b.first;
-  pair<int, int> p5 = b.middle;
-  pair<int, int> p6 = b.last;
-  pair<int, int> mx = max(p2, p5);
-  if(a.last.second == b.first.second) {
-    p3.first += p4.first;
-    mx = max(mx, p3);
+node merge(node l, node r) {
+  if(l.first_element == -1) return r;
+  if(r.first_element == -1) return l;
+  node ans;
+  ans.max_cnt = max(l.max_cnt, r.max_cnt);
+  if(l.last_element == r.first_element) {
+    ans.max_cnt = max(ans.max_cnt, l.last_element_cnt + r.first_element_cnt);
   }
-  if(p1.second == mx.second) {
-    p1.first = mx.first;
+  ans.first_element = l.first_element;
+  ans.first_element_cnt = l.first_element_cnt;
+  if(l.first_element == r.first_element) {
+    ans.first_element_cnt += r.first_element_cnt;
   }
-  if(p6.second == mx.second) {
-    p6.first = mx.first;
+  ans.last_element = r.last_element;
+  ans.last_element_cnt = r.last_element_cnt;
+  if(r.last_element == l.last_element) {
+    ans.last_element_cnt += l.last_element_cnt;
   }
-  return {p1, mx, p6};
+  return ans;
 }
-
 
 struct ST {
   node tree[4 * N];
-  ST() {
-    memset(tree, 0, sizeof(tree));
-  }
   void build(int n, int b, int e) {
     if(b == e) {
-      tree[n] = {{1, a[b]}, {1, a[b]}, {1, a[b]}};
+      tree[n].first_element = a[b];
+      tree[n].first_element_cnt = 1;
+      tree[n].last_element = a[b];
+      tree[n].last_element_cnt = 1;
+      tree[n].max_cnt = 1;
       return;
     }
     int mid = (b + e) >> 1, l = n << 1, r = l + 1;
@@ -51,7 +51,7 @@ struct ST {
   }
   
   node query(int n, int b, int e, int i, int j) {
-    if(b > j || e < i) return {{0, 0}, {0, 0}}; // return appropriate value
+    if(b > j || e < i) return {-1, -1, -1, -1, -1};
     if(b >= i && e <= j) return tree[n];
     int mid = (b + e) >> 1, l = n << 1, r = l + 1;
     return merge(query(l, b, mid, i, j), query(r, mid + 1, e, i, j)); // change this
@@ -75,7 +75,7 @@ int main() {
     while(q--) {
       int l, r; cin >> l >> r;
       node ans = st.query(1, 1, n, l, r);
-      cout << ans.middle.first << '\n';
+      cout << ans.max_cnt << '\n';
     }
   }
 
