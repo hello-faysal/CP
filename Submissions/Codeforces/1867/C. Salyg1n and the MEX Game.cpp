@@ -4,6 +4,21 @@ using namespace std;
 // @author: faysalahammedchowdhury
 
 void solve() {
+  int n; cin >> n;
+  set<int> se;
+  for(int i = 0; i < n; i++) {
+    int x; cin >> x;
+    se.insert(x);
+  }
+  int mex = 0;
+  while(se.find(mex) != se.end()) {
+    mex++;
+  }
+  while(true) {
+    cout << mex << endl;
+    cin >> mex;
+    if(mex < 0) return;
+  }
 }
 
 int main() {
