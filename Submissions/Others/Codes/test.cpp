@@ -1,63 +1,83 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 
-const int N = 5e5 + 9;
-int a[N];
-struct ST {
-  #define lc (n << 1)
-  #define rc ((n << 1) | 1)
-  long long t[4 * N], lazy[4 * N];
-  ST() {
-    memset(t, 0, sizeof t);
-    memset(lazy, 0, sizeof lazy);
+// @author: faysalahammedchowdhury
+
+const int N = 1e5 + 9;
+pair<int, int> Q[N];
+
+int main() {
+  ios_base::sync_with_stdio(0);
+  cin.tie(0);
+
+  int n, q; cin >> n >> q;
+  for(int i = 1; i <= n; i++) {
+    cin >> Q[i].first >> Q[i].second;
   }
-  inline void push(int n, int b, int e) {
-    if (lazy[n] == 0) return;
-    t[n] = t[n] + lazy[n] * (e - b + 1);
-    if (b != e) {
-      lazy[lc] = lazy[lc] + lazy[n];
-      lazy[rc] = lazy[rc] + lazy[n];
+
+  int mx;
+  if(Q[n].first == 1) {
+    mx = Q[n].second;
+  }
+  else if(Q[n].first == 2) {
+    mx = (1 << 30) - 1;
+  }
+  else if(Q[n].first == 3) {
+    mx = 0;
+    int len = __lg(Q[n].second);
+    for(int k = 0; k <= len; k++) {
+      if((Q[n].second & (1 << k)) == 0) {
+        mx += 1 << k;
+      }
     }
-    lazy[n] = 0;
   }
-  inline long long combine(long long a,long long b) {
-    return a + b;
-  }
-  inline void pull(int n) {
-    t[n] = t[lc] + t[rc];
-  }
-  void build(int n, int b, int e) {
-    lazy[n] = 0;
-    if (b == e) {
-      t[n] = a[b];
-      return;
+  for(int i = n - 1; i >= 1; i--) {
+    int mx_tmp = mx;
+    if(Q[i].first == 2) {
+      mx = 0;
+      for(int k = 0; k < 30; k++) {
+        if((mx_tmp & (1 << k))) {
+          if(Q[i].second & (1 << k)) {
+          }
+          else {
+            mx += (1 << k);
+          }
+        }
+      }
     }
-    int mid = (b + e) >> 1;
-    build(lc, b, mid);
-    build(rc, mid + 1, e);
-    pull(n);
-  }
-  void upd(int n, int b, int e, int i, int j, long long v) {
-    push(n, b, e);
-    if (j < b || e < i) return;
-    if (i <= b && e <= j) {
-      lazy[n] = v; //set lazy
-      push(n, b, e);
-      return;
+    else if(Q[i].first == 1) {
+      mx = 0;
+      for(int k = 0; k < 30; k++) {
+        if((mx_tmp & (1 << k)) && (Q[i].second & (1 << k))) {
+          mx += (1 << k);
+        }
+      }
     }
-    int mid = (b + e) >> 1;
-    upd(lc, b, mid, i, j, v);
-    upd(rc, mid + 1, e, i, j, v);
-    pull(n);
+    else {
+      mx = 0;
+      for(int k = 0; k < 30; k++) {
+        if((mx_tmp & (1 << k)) && (Q[i].second & (1 << k)) == 0) {
+          mx += (1 << k);
+        }
+      }
+    }
   }
-  long long query(int n, int b, int e, int i, int j) {
-    push(n, b, e);
-    if (i > e || b > j) return 0; //return null
-    if (i <= b && e <= j) return t[n];
-    int mid = (b + e) >> 1;
-    return combine(query(lc, b, mid, i, j), query(rc, mid + 1, e, i, j));
+
+  for(int i = 1; i <= q; i++) {
+    int x; cin >> x;
+    if(mx <= x) {
+      cout << mx << '\n';
+    }
+    else {
+      int tmp = mx;
+      for(int k = 0; k < 30; k++) {
+        if((x & (1 << k)) == 0 && (mx & (1 << k))) {
+          tmp -= (1 << k);
+        }
+      }
+      cout << tmp << '\n';
+    }
   }
-};
-int32_t main() {
-    
+
+  return 0;
 }
