@@ -12,7 +12,7 @@ int main() {
     int n, m; cin >> n >> m;
     int old_n = n, old_m = m;
     int five_cnt = 0, two_cnt = 0;
-    for(int i = 2; i * i <= old_n; i++) {
+    for(int i = 2; i <= 5; i++) {
       while(n % i == 0) {
         if(i == 2) two_cnt++;
         else if(i == 5) five_cnt++;
