@@ -5,14 +5,11 @@ using namespace std;
 
 const int N = 1e5 + 9;
 vector<int> g[N];
-vector<bool> vis(N, false);
 int n, m, consecutive, a[N];
 int ans;
 
-void dfs(int u, int par, int cnt) {
-  vis[u] = true;
-  
-  if(a[par] == 1 && a[u] == 1) cnt++;
+void dfs(int u, int p, int cnt) {
+  if(a[p] == 1 && a[u] == 1) cnt++;
   else if(a[u] == 1) cnt = 1;
   else cnt = 0;
 
@@ -20,7 +17,7 @@ void dfs(int u, int par, int cnt) {
 
   bool leaf = true;
   for (auto v: g[u]) {
-    if (!vis[v]) {
+    if (v != p) {
       leaf = false;
       dfs(v, u, cnt);
     }

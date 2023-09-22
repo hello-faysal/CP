@@ -1,7 +1,2 @@
-6
-abc
-acb
-bac
-bca
-cab
-cba
+2
+63997 63997
