@@ -3,10 +3,8 @@ using namespace std;
 
 const int N = 105, inf = 1e9;
 vector<int> g[N];
-vector<int> dis(N, inf);
-vector<bool> vis(N, false);
 
-void bfs(int u) {
+void bfs(int u, vector<bool> &vis, vector<int> &dis) {
   vis[u] = true;
   dis[u] = 0;
   queue<int> q;
@@ -23,15 +21,12 @@ void bfs(int u) {
   }
 }
 
-
 int cs = 0;
 void solve() {
   cout << "Case " << ++cs << ": ";
   int n, m; cin >> n >> m;
   for(int i = 1; i <= n; i++) {
     g[i].clear();
-    vis[i] = false;
-    dis[i] = inf;
   }
   while(m--) {
     int u, v; cin >> u >> v;
@@ -42,28 +37,20 @@ void solve() {
 
   int a, b; cin >> a >> b;
   a++, b++;
-  bfs(a);
-  int mx1 = -inf;
+  vector<bool> vis1(N, false);
+  vector<int> dis1(N, inf);
+  bfs(a, vis1, dis1);
+
+  vector<bool> vis2(N, false);
+  vector<int> dis2(N, inf);
+  bfs(b, vis2, dis2);
+
+  int ans = -inf;
   for(int i = 1; i <= n; i++) {
-    if(i != b) {
-      mx1 = max(mx1, dis[i]);
-    }
+    ans = max(ans, dis1[i] + dis2[i]);
   }
 
-  for(int i = 1; i <= n; i++) {
-    dis[i] = inf;
-    vis[i] = false;
-  }
-
-  bfs(b);
-  int mx2 = -inf;
-  for(int i = 1; i <= n; i++) {
-    if(i != a) {
-      mx2 = max(mx2, dis[i]);
-    }
-  }
-
-  cout << max(1, mx1 + mx2) << '\n';
+  cout << ans << '\n';
 }
 
 int32_t main() {
