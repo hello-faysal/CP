@@ -3,17 +3,12 @@ using namespace std;
 
 void solve() {
   int n; cin >> n;
-  int a[n + 1];
+  int curr = 1;
   for(int i = 1; i <= n; i++) {
-    cin >> a[i];
+    cout << curr << ' ';
+    curr += 2;
   }
-  long long ans = 0, add = 0;
-  for(int i = n; i > 0; i--) {
-    int x = (i & 1) ? a[i] : 0;
-    ans = max(ans, add + x);
-    add += max(0, a[i]);
-  }
-  cout << ans << '\n';
+  cout << '\n';
 }
 
 int32_t main() {
