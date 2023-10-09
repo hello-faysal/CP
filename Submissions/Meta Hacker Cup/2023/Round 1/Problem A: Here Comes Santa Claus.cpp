@@ -12,6 +12,7 @@ void solve() {
   }
   sort(a + 1, a + 1 + n);
   cout << "Case #" << ++cs << ": ";
+  cout << fixed << setprecision(10);
   if(n % 2 == 0) {
     double ans = abs(((a[1] + a[2]) / 2.0) - ((a[n - 1] + a[n]) / 2.0));
     cout << ans << '\n';
