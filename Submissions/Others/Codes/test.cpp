@@ -1,44 +1,40 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// @author: faysalahammedchowdhury
-
-#define int unsigned long long  
-
-const int mod = 1e9 + 7;
-
-int power(int b, int p, int m) {
-  if(p == 0) return 1 % m;
-  if(p & 1) {
-    int val = power(b, p / 2, m);
-    return ((1LL * val * val) % m) * b % m;
+int partition(int a[], int b, int e) {
+  int l = b, r = e;
+  int pivot_item = a[b];
+  while (l < r) {
+    while (l < e and a[l] <= pivot_item) l++;
+    while (r > b and a[r] >= pivot_item) r--;
+    if (l < r) {
+      swap(a[l], a[r]);
+    }
   }
-  else {
-    int val = power(b, p / 2, m);
-    return (1LL * val * val) % m;
-  }
+  a[b] = a[r];
+  a[r] = pivot_item;
+  return r;
 }
 
-int32_t main() {
-  ios_base::sync_with_stdio(0);
-  cin.tie(0);
 
-  int m; cin >> m;
-  map<int, int> mp;
-  int mul = 1;
-  bool is = true;
-  for(int i = 0; i < m; i++) {
-    int x; cin >> x;
-    mp[x]++;
-    mul = mul * x % mod;
+void quick_sort(int a[], int b, int e) {
+  if (b >= e) return;
+  int p = partition(a, b, e);
+  quick_sort(a, b, p - 1);
+  quick_sort(a, p + 1, e);
+}
+
+int main() {
+
+  int n = 5;
+  int a[n] = { 5, 4, 2, 1, 3 };
+
+  quick_sort(a, 0, n - 1);
+
+  for (int i = 0; i < n; i++) {
+    cout << a[i] << ' ';
   }
-
-  for(auto i: mp) {
-    mul = power(mul, i.second + 1, mod);
-  }
-
-  mul = sqrt(mul);
-  cout << mul << '\n';
+  cout << '\n';
 
   return 0;
 }
