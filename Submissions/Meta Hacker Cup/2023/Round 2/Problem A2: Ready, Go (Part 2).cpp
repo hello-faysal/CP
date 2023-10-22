@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
+#include <sys/resource.h>
 
 const int N = 3005;
 string s[N];
@@ -75,7 +76,6 @@ void solve() {
   ans += mx;
   cout << ans << '\n';
 }
-#include <sys/resource.h>
 
 
 int32_t main() {
