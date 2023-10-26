@@ -26,25 +26,7 @@ void solve() {
     return;
   }
 
-  if (odd == k or odd == k + 1) {
-    cout << "Yes\n";
-    return;
-  }
-
-  int must = odd - 1;
-  int x = k - must;
-  if (x % 2 == 0) {
-    cout << "Yes\n";
-    return;
-  }
-
-  x = k - odd;
-  if (x % 2 == 0) {
-    cout << "Yes\n";
-    return;
-  }
-
-  cout << "No\n";
+  cout << "Yes\n";
 }
 
 int32_t main() {
