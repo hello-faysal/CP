@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-const int N = 1e7 + 9;
+const int N = 1e6 + 9;
 vector<bool> is_prime(N, true);
 
 void sieve() {
@@ -16,19 +16,17 @@ void sieve() {
   }
 }
 
-int main() {
+int32_t main() {
   ios_base::sync_with_stdio(0);
   cin.tie(0);
 
   sieve();
-
-  for (int i = 1; i <= 100; i++) {
-    cout << i << ": ";
-    if (is_prime[i]) {
-      cout << "PRIME\n";
-    }
-    else {
-      cout << "NOT PRIME\n";
+  int n; cin >> n;
+  for (int i = 2; i <= n; i++) {
+    int need = n - i;
+    if (is_prime[i] == false and is_prime[need] == false) {
+      cout << i << ' ' << need << '\n';
+      return 0;
     }
   }
 
