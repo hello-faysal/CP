@@ -1,70 +1,37 @@
 #include <bits/stdc++.h>
 using namespace std;
+#define len(x) (int) x.size();
 
-string s, l, r;
-int m;
-vector<char> arr[10];
-
-bool is_subsequence(string s, string p) {
-  int len = s.size();
-  int curr_idx = 0;
-  for(int i = 0; i < len && curr_idx < m; i++) {
-    if(s[i] == p[curr_idx]) {
-      curr_idx++;
-    }
+int my_find(string s, char c, int last) {
+  for (int i = last; i >= 0; i--) {
+    if (s[i] == c) return i;
   }
-  if(curr_idx < m) {
-    return false;
-  }
-  return true;
-}
-
-bool fun(int pos, string &curr) {
-  if(pos == m) {
-    // if(!is_subsequence(s, curr)) {
-    //   return true;
-    // }
-    cout << curr << '\n';
-    return false;
-  }
-  for(auto i: arr[pos]) {
-    curr.push_back(i);
-    bool ans = fun(pos + 1, curr);
-    if(ans) return true;
-    curr.pop_back();
-  }
-
-  return false;
+  return -1;
 }
 
 void solve() {
-  for(int i = 0; i < 10; i++) {
-    arr[i].clear();
-  }
-  cin >> s >> m >> l >> r;
-  for(int i = 0; i < m; i++) {
-    for(char j = l[i]; j <= r[i]; j++) {
-      arr[i].push_back(j);
+  string s; cin >> s;
+  int n = len(s);
+  int m; cin >> m;
+  string start, end; cin >> start >> end;
+  int idx = n - 1;
+  for (int i = 0, j = m - 1; i < m; i++, j--) {
+    int x = 10000000;
+    for (int c = start[j]; c <= end[j]; c++) {
+      int curr = my_find(s, c, idx);
+      if (curr == -1) {
+        cout << "Yes\n";
+        return;
+      }
+      x = min(x, curr);
     }
+    idx = x;
+    idx--;
   }
-
-  // for(int i = 0; i < m; i++) {
-  //   cout << i << ": ";
-  //   for(auto j: arr[i]) {
-  //     cout << j << ' ';
-  //   }
-  //   cout << '\n';
-  // }
-  string curr = "";
-  if(fun(0, curr)) {
-    cout << "YES\n";
-  }
-  else {
-    cout << "NO\n";
-  }
+  cout << "No\n";
 }
 
-int main() {
+int32_t main() {
   ios_base::sync_with_stdio(0);
   cin.tie(0);
 
