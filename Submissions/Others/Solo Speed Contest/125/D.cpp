@@ -20,6 +20,7 @@ void sieve() {
 void solve() {
   int l, r; cin >> l >> r;
   auto it = *upper_bound(primes.begin(), primes.end(), r);
+  // cout << 1000003 << '\n'; // is also ok
   cout << it << '\n';
 }
 
