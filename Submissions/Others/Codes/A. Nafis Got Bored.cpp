@@ -17,14 +17,14 @@ void solve() {
   for (auto x : a) {
     if (max_mex == x) max_mex++;
   }
-  int freq[max_mex];
+  int ways[max_mex];
   for (int i = 0; i < max_mex; i++) {
     int mn = min(30ll, mp[i]);
-    freq[i] = (1 << mn) - 1;
+    ways[i] = (1 << mn) - 1;
   }
   for (int i = 1; i < max_mex; i++) {
-    int mn = (int)(1ll * freq[i] * freq[i - 1]);
-    freq[i] = min(MIN, mn);
+    int mn = (int)(1ll * ways[i] * ways[i - 1]);
+    ways[i] = min(MIN, mn);
   }
 
   int cur = max_mex;
@@ -43,7 +43,7 @@ void solve() {
       ans -= (1ll * cur * apply);
     }
     else {
-      possible = min(MIN, (int) (1ll * freq[cur - 1] * possible));
+      possible = min(MIN, (int) (1ll * ways[cur - 1] * possible));
       int apply = min(minus, possible);
       minus -= apply;
       ans -= (1ll * cur * apply);
@@ -63,7 +63,7 @@ void solve() {
       ans += (1ll * cur * apply);
     }
     else {
-      possible = min(MIN, (int) (1ll * freq[cur - 1] * possible));
+      possible = min(MIN, (int) (1ll * ways[cur - 1] * possible));
       int apply = min(add, possible);
       add -= apply;
       ans += (1ll * cur * apply);
