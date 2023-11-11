@@ -7,7 +7,7 @@ int sz[N];
 
 void dfs(int u, int p) {
   sz[u] = 1;
-  for (auto v: g[u]) {
+  for (auto v : g[u]) {
     if (v != p) {
       dfs(v, u);
       sz[u] += sz[v];

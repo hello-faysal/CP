@@ -7,7 +7,7 @@ int dp[2][N];
 void dfs(int u, int p) {
   dp[0][u] = 1;
   dp[1][u] = 1;
-  for (auto v: g[u]) {
+  for (auto v : g[u]) {
     if (v != p) {
       dfs(v, u);
       dp[0][u] = 1ll * dp[0][u] * dp[1][v] % mod;
