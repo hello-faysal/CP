@@ -13,7 +13,6 @@ int32_t main() {
     cin >> a[i];
   }
 
-  memset(dp, 0, sizeof dp);
   for (int i = 1; i <= n; i++) {
     dp[i] = 1;
     for (int j = 1; j < i; j++) {

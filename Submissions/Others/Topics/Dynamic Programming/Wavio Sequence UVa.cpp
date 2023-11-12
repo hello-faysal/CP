@@ -56,7 +56,6 @@ int32_t main() {
       a[i] = mp[a[i]];
     }
 
-    memset(dp, 0, sizeof dp);
     st.build(1, 1, M);
 
     for (int i = 1; i <= n; i++) {
@@ -69,7 +68,6 @@ int32_t main() {
       st.upd(1, 1, M, a[i], dp[i]);
     }
 
-    memset(dp2, 0, sizeof dp2);
     st.build(1, 1, M);
 
     for (int i = n; i >= 1; i--) {
