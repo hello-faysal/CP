@@ -5,7 +5,7 @@ const int N = 1e5 + 9, M = 1e5 + 9;
 int a[N], dp[N];
 
 struct ST {
-  int tree[4 * N];
+  int tree[4 * M];
   void build(int n, int b, int e) {
     if(b == e) {
       tree[n] = 0;
@@ -33,7 +33,7 @@ struct ST {
     int mid = (b + e) >> 1, l = n << 1, r = l + 1;
     int L = query(l, b, mid, i, j);
     int R = query(r, mid + 1, e, i, j);
-    return max(L, R); // change this
+    return max(L, R);
   }
 } st;
 
@@ -47,11 +47,16 @@ int32_t main() {
   }
 
   memset(dp, 0, sizeof dp);
-  st.build(1, 0, M);
+  st.build(1, 1, M);
 
   for (int i = 1; i <= n; i++) {
-    dp[i] = max(1, 1 + st.query(1, 0, M, 0, a[i] - 1));
-    st.upd(1, 0, M, a[i], dp[i]);
+    dp[i] = 1;
+    if (a[i] != 1) {
+      int mx = st.query(1, 1, M, 1, a[i] - 1);
+      mx++;
+      dp[i] = max(dp[i], mx);
+    }
+    st.upd(1, 1, M, a[i], dp[i]);
   }
 
   int ans = 0;
