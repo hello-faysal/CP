@@ -4,14 +4,14 @@ using namespace std;
 double suface_area;
 
 double fun(double square_area) {
-  double b = sqrt(square_area);
+  double base = sqrt(square_area);
   double triangle_area = suface_area - square_area;
   double per_triangle_area = triangle_area / 4;
-  double l = (per_triangle_area * 2) / b;
-  double x = b / 2;
-  double h = sqrt((l * l) - (x * x));
-  double volume = (b * b * h) / 3;
-  if (x > l) volume = 0;
+  double triangle_height = (per_triangle_area * 2) / base;
+  double x = base / 2;
+  double height = sqrt((triangle_height * triangle_height) - (x * x));
+  double volume = (base * base * height) / 3;
+  if (x > triangle_height) volume = 0;
   return volume;
 }
 
