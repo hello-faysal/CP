@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-bool is_prime(int long n) {
+bool is_prime(int n) {
   if (n == 2) return true;
   if (n == 1) return false;
   for (int i = 2; 1ll * i * i <= n; i++) {
@@ -12,11 +12,7 @@ bool is_prime(int long n) {
 
 void solve() {
   int h; cin >> h;
-  if (is_prime(h)) {
-    cout << 1 << '\n';
-    return;
-  }
-  for (int i = 1; i <= 31; i++) {
+  for (int i = 0; i <= 31; i++) {
     int x = (1 << i) - 1;
     int target = h - x;
     if (target == 0) {
