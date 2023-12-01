@@ -15,11 +15,14 @@ double fun(double square_area) {
   return volume;
 }
 
+int cs = 0;
 int32_t main() {
   ios_base::sync_with_stdio(0);
   cin.tie(0);
 
-  while (cin >> suface_area and suface_area >= 0) {
+  int t; cin >> t;
+  while (t--) {
+    cin >> suface_area;
     cout << fixed << setprecision(4);
     double l = 0, r = suface_area, ans = -1;
     int it = 100;
@@ -37,8 +40,9 @@ int32_t main() {
       }
     }
 
+    cout << "Case " << ++cs << ": ";
     cout << ans << '\n';
-  } 
+  }
 
   return 0;
 }
