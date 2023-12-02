@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-const int N = 1e6 + 9; // change here
+const int N = 1e5 + 9;  
 
 int power(long long n, long long k, const int mod) {
   int ans = 1 % mod;
@@ -63,11 +63,57 @@ struct Hashing {
   }
 };
 
+string s;
+Hashing hs;
+int n;
+pair<int, int> ans_hash;
+
+bool ok(int len) {
+  map<pair<int, int>, int> mp;
+  for (int i = 1; i + len - 1 <= n; i++) {
+    mp[hs.get_hash(i, i + len - 1)]++;
+  }
+  for (auto [hash_val, cnt] : mp) {
+    if (cnt >= 2) {
+      ans_hash = hash_val;
+      return true;
+    }
+  }
+  return false;
+}
+
 int32_t main() {
   ios_base::sync_with_stdio(0);
   cin.tie(0);
 
   prec();
+
+  cin >> s;
+  n = s.size();
+  hs = Hashing(s);
+
+  int l = 1, r = n, ans = -1;
+  while (l <= r) {
+    int mid = (l + r) / 2;
+    if (ok(mid)) {
+      ans = mid;
+      l = mid + 1;
+    }
+    else {
+      r = mid - 1;
+    }
+  }
+
+  if (ans != - 1) {
+    for (int i = 1; i + ans - 1 <= n; i++) {
+      if (hs.get_hash(i, i + ans - 1) == ans_hash) {
+        cout << s.substr(i - 1, ans) << '\n';
+        return 0;
+      }
+    }
+  }
+
+  cout << ans << '\n';
 
   return 0;
 }

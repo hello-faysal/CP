@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-const int N = 1e6 + 9; // change here
+const int N = 5e6 + 9;
 
 int power(long long n, long long k, const int mod) {
   int ans = 1 % mod;
@@ -63,11 +63,46 @@ struct Hashing {
   }
 };
 
+string s;
+Hashing hs;
+
+bool ok(int len, int second_start) {
+  return hs.get_hash(1, len) == hs.get_hash(second_start, second_start + len - 1);
+}
+
+int lcp(int i, int j, int x, int y) {
+  int n = j - i + 1, m = y - x + 1;
+  int mn = min(n, m);
+  int l = 1, r = mn, ans = 0;
+  while (l <= r) {
+    int mid = (l + r) >> 1;
+    if (ok(mid, x)) {
+      ans = mid;
+      l = mid + 1;
+    }
+    else {
+      r = mid - 1;
+    }
+  }
+  return ans;
+}
+
 int32_t main() {
   ios_base::sync_with_stdio(0);
   cin.tie(0);
 
   prec();
+
+  cin >> s;
+  int n = s.size();
+  hs = Hashing(s);
+
+  int q; cin >> q;
+  while (q--) {
+    int p; cin >> p;
+    p++;
+    cout << lcp(1, p - 1, p, n) << '\n';
+  }
 
   return 0;
 }
