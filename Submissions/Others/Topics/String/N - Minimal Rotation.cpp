@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-const int N = 1e6 + 9; // change here
+const int N = 2e6 + 9; // change here
 
 int power(long long n, long long k, const int mod) {
   int ans = 1 % mod;
@@ -52,6 +52,7 @@ struct Hashing {
   }
 
   pair<int, int> get_hash(int l, int r) { // 1 indexed
+    assert(1 <= l && l <= r && r <= n);
     pair<int, int> ans;
     ans.first = (hash_val[r].first - hash_val[l - 1].first + MOD1) * 1ll * ipw[l - 1].first % MOD1;
     ans.second = (hash_val[r].second - hash_val[l - 1].second + MOD2) * 1ll * ipw[l - 1].second % MOD2;
@@ -62,10 +63,56 @@ struct Hashing {
   }
 };
 
+string s;
+Hashing hs;
+
+int lcp(int i, int j, int x, int y) {
+  int len1 = j - i + 1, len2 = y - x + 1;
+  int l = 1, r = min(len1, len2), ans = 0;
+  while (l <= r) {
+    int mid = (l + r) >> 1;
+    if (hs.get_hash(i, i + mid - 1) == hs.get_hash(x, x + mid - 1)) {
+      ans = mid;
+      l = mid + 1;
+    }
+    else {
+      r = mid - 1;
+    }
+  }
+  return ans;
+}
+
+// return 0 if both equal
+// return 1 if first substring greater
+// return -1 if second substring greater
+int compare(int i, int j, int x, int y) {
+  int common_prefix = lcp(i, j, x, y);
+  int len1 = j - i + 1, len2 = y - x + 1;
+  if (common_prefix == len1 and len1 == len2) return 0;
+  else if (common_prefix == len1) return -1;
+  else if (common_prefix == len2) return 1;
+  else return (s[i + common_prefix - 1] < s[x + common_prefix - 1] ? -1 : 1);
+}
+
 int32_t main() {
   ios_base::sync_with_stdio(0);
   cin.tie(0);
   prec(); // must include
+
+  cin >> s;
+  int k = s.size();
+  s += s;
+  hs = Hashing(s);
+  int n = s.size();
+
+  int start = 1, end = k;
+  for (int i = 1; i + k - 1 <= n; i++) {
+    int x = compare(start, end, i, i + k - 1);
+    if (x == 1) {
+      start = i, end = i + k - 1;
+    }
+  }
+  cout << s.substr(start - 1, k) << '\n';
 
   return 0;
 }

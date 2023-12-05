@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-const int N = 1e6 + 9; // change here
+const int N = 2e5 + 9; // change here
 
 int power(long long n, long long k, const int mod) {
   int ans = 1 % mod;
@@ -52,6 +52,7 @@ struct Hashing {
   }
 
   pair<int, int> get_hash(int l, int r) { // 1 indexed
+    assert(1 <= l && l <= r && r <= n);
     pair<int, int> ans;
     ans.first = (hash_val[r].first - hash_val[l - 1].first + MOD1) * 1ll * ipw[l - 1].first % MOD1;
     ans.second = (hash_val[r].second - hash_val[l - 1].second + MOD2) * 1ll * ipw[l - 1].second % MOD2;
@@ -66,6 +67,24 @@ int32_t main() {
   ios_base::sync_with_stdio(0);
   cin.tie(0);
   prec(); // must include
+
+  string a, b; cin >> a >> b;
+  int n = a.size(), k = b.size();
+  b += b;
+  int m = b.size();
+
+  Hashing hash_a(a), hash_b(b);
+  set<pair<int, int>> se;
+  for (int i = 1; i + k - 1 <= m; i++) {
+    se.insert(hash_b.get_hash(i, i + k - 1));
+  }
+
+  int ans = 0;
+  for (int i = 1; i + k - 1 <= n; i++) {
+    pair<int, int> cur = hash_a.get_hash(i, i + k - 1);
+    if (se.find(cur) != se.end()) ans++;
+  }
+  cout << ans << '\n';
 
   return 0;
 }

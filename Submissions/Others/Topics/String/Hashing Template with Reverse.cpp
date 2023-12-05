@@ -38,6 +38,7 @@ struct Hashing {
   int n;
   string s;
   vector<pair<int, int>> hash_val;
+  vector<pair<int, int>> rev_hash_val;
   Hashing() {}
   Hashing(string _s) {
     s = _s;
@@ -49,6 +50,13 @@ struct Hashing {
       p.second = (hash_val[i].second + 1ll * s[i] * pw[i].second % MOD2) % MOD2;
       hash_val.push_back(p);
     }
+    rev_hash_val.emplace_back(0, 0);
+    for (int i = 0, j = n - 1; i < n; i++, j--) {
+      pair<int, int> p;
+      p.first = (rev_hash_val[i].first + 1ll * s[i] * pw[j].first % MOD1) % MOD1;
+      p.second = (rev_hash_val[i].second + 1ll * s[i] * pw[j].second % MOD2) % MOD2;
+      rev_hash_val.push_back(p);
+    }
   }
 
   pair<int, int> get_hash(int l, int r) { // 1 indexed
@@ -57,8 +65,17 @@ struct Hashing {
     ans.second = (hash_val[r].second - hash_val[l - 1].second + MOD2) * 1ll * ipw[l - 1].second % MOD2;
     return ans;
   }
+  pair<int, int> rev_hash(int l, int r) { // 1 indexed
+    pair<int, int> ans;
+    ans.first = (rev_hash_val[r].first - rev_hash_val[l - 1].first + MOD1) * 1ll * ipw[n - r].first % MOD1;
+    ans.second = (rev_hash_val[r].second - rev_hash_val[l - 1].second + MOD2) * 1ll * ipw[n - r].second % MOD2;
+    return ans;
+  }
   pair<int, int> get_hash() { // 1 indexed
     return get_hash(1, n);
+  }
+  bool is_palindrome(int l, int r) {
+    return get_hash(l, r) == rev_hash(l, r);
   }
 };
 
