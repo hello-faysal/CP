@@ -6,6 +6,11 @@ int main() {
   cin.tie(0);
 
   cout << "here update\n";
+  map<int, int> mp;
+  mp[5] = 1;
+  for (auto [x, y] : mp) {
+    cout << x << ' ' << y << '\n';
+  }
 
   return 0;
 }
