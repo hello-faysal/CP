@@ -1,77 +1,14 @@
-#include<bits/stdc++.h>
-#include<ext/pb_ds/assoc_container.hpp>
-#include<ext/pb_ds/tree_policy.hpp>
-using namespace __gnu_pbds;
+#include <bits/stdc++.h>
 using namespace std;
 
-template <typename T> using o_set = tree<T, null_type, greater<T>, rb_tree_tag, tree_order_statistics_node_update>;
-
-const int N = 7;
-int n, m, a[N][N], b[N][N];
-bool rows[N], cols[N];
-int row[N], col[N];
-
-bool find_row(int idx) {
-  map<int, int> mp;
-  for (int j = 1; j <= m; j++) {
-    mp[a[idx][j]]++;
-  }
-
-  for (int i = 1; i <= n; i++) {
-    map<int, int> mp2;
-    for (int j = 1; j <= m; j++) {
-      mp2[b[i][j]]++;
-    }
-    if (mp == mp2 and !rows[i]) {
-      row[idx] = i;
-      rows[i] = true;
-      return true;
-    }
-  }
-  return false;
-}
-
-bool find_col(int idx) {
-  map<int, int> mp;
-  for (int i = 1; i <= n; i++) {
-    mp[a[i][idx]]++;
-  }
-  for (int j = 1; j <= m; j++) {
-    map<int, int> mp2;
-    for (int i = 1; i <= n; i++) {
-      mp2[b[i][j]]++;
-    }
-    if (mp == mp2 and !cols[j]) {
-      col[idx] = j;
-      cols[j] = true;
-      return true;
-    }
-  }
-  return false;
-}
-
-bool is_valid() {
-  for (int i = 1; i <= n; i++) {
-    if (!find_row(i)) {
-      return false;
-    }
-  }
-
-  for (int j = 1; j <= m; j++) {
-    if (!find_col(j)) {
-      return false;
-    }
-  }
-  
-  return true;
-}
+const int inf = 1e9;
 
 int32_t main() {
   ios_base::sync_with_stdio(0);
   cin.tie(0);
 
-  cin >> n >> m;
-
+  int n, m; cin >> n >> m;
+  int a[6][6], b[6][6];
   for (int i = 1; i <= n; i++) {
     for (int j = 1; j <= m; j++) {
       cin >> a[i][j];
@@ -84,25 +21,42 @@ int32_t main() {
     }
   }
 
-  if (!is_valid()) {
-    cout << -1 << '\n';
-    return 0;
-  }
+  int p[6], q[6];
+  for (int i = 1; i <= n; i++) p[i] = i;
+  for (int j = 1; j <= m; j++) q[j] = j;
 
-  o_set<int> se;
-  int ans = 0;
-  for (int i = 1; i <= n; i++) {
-    ans += se.order_of_key(row[i]);
-    se.insert(row[i]);
-  }
+  int ans = inf;
+  do {
+    do {
+      bool ok = true;
+      for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= m; j++) {
+          if (a[p[i]][q[j]] != b[i][j]) {
+            ok = false;
+            break;
+          }
+        }
+      }
 
-  se.clear();
-  for (int j = 1; j <= m; j++) {
-    ans += se.order_of_key(col[j]);
-    se.insert(col[j]);
-  }
+      if (!ok) continue;
 
-  cout << ans << '\n';
+      int pinv = 0, qinv = 0;
+      for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= n; j++) {
+          if (i < j and p[i] > p[j]) pinv++;
+        }
+      } 
+      for (int i = 1; i <= m; i++) {
+        for (int j = 1; j <= m; j++) {
+          if (i < j and q[i] > q[j]) qinv++;
+        }
+      } 
+      ans = min(ans, pinv + qinv);
+
+    } while (next_permutation(q + 1, q + m + 1));
+  } while (next_permutation(p + 1, p + n + 1));
+
+  cout << (ans == inf ? -1 : ans) << '\n';
 
   return 0;
 }
