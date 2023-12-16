@@ -17,7 +17,7 @@ int power(long long n, long long k, const int mod) {
 
 using T = array<int, 2>;
 const T MOD = {127657753, 987654319};
-const T p = {137, 277};
+const T p = {137, 277}; // change here
 
 T operator + (T a, int x) {return {(a[0] + x) % MOD[0], (a[1] + x) % MOD[1]};}
 T operator - (T a, int x) {return {(a[0] - x + MOD[0]) % MOD[0], (a[1] - x + MOD[1]) % MOD[1]};}

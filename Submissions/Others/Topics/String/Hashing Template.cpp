@@ -16,7 +16,7 @@ int power(long long n, long long k, const int mod) {
 }
 
 const int MOD1 = 127657753, MOD2 = 987654319;
-const int p1 = 137, p2 = 277;
+const int p1 = 137, p2 = 277; // change here
 int ip1, ip2;
 pair<int, int> pw[N], ipw[N];
 void prec() {
