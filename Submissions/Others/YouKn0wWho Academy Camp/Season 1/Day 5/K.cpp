@@ -27,14 +27,10 @@ vector<int> get_fact(int n) {
 }
 
 bitset<K> fact;
-int odd;
-
 void add(int n) {
   vector<int> v = get_fact(n);
   for (auto x : v) {
     fact[x].flip();
-    if (fact[x] == 1) odd++;
-    else odd--;
   }
 }
 
@@ -42,9 +38,11 @@ void erase(int n) {
   vector<int> v = get_fact(n);
   for (auto x : v) {
     fact[x].flip();
-    if (fact[x] == 1) odd++;
-    else odd--;
   }
+}
+
+bool check() {
+  return fact.none();
 }
 
 int power(long long n, long long k, const int mod) {
@@ -130,7 +128,7 @@ int32_t main() {
       erase(a[i - k]);
     }
     if (i >= k) {
-      if (odd == 0) {
+      if (check()) {
         int l = i - k + 1, r = i;
         se.insert(hash.get_hash(l, r));
       } 
