@@ -1,8 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// @author: faysalahammedchowdhury
-
 const int N = 1e5 + 9;
 vector<int> g[N];
 vector<bool> vis(N, false);
