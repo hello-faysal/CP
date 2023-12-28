@@ -1,8 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// @author: faysalahammedchowdhury
-
 #define int long long
 const int N = 1e5 + 9;
 int a[N];
