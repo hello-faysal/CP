@@ -5,6 +5,7 @@ void solve() {
   int n; cin >> n;
   string s; cin >> s;
   s = '.' + s;
+  
   vector<int> v;
   int last = 1;
   for (int i = 1; i <= n; i++) {
@@ -14,13 +15,10 @@ void solve() {
     }
   }
   v.push_back(n - last + 1);
+
   int ans = 0;
   for (auto x : v) {
-    if (x >= 6) {
-      ans += (x / 6) * 2;
-      if ((x % 6) >= 3) ans++;
-    }
-    else if (x >= 3 and x <= 5) ans++;
+    ans += (x / 3);
   }
   cout << ans << '\n';
 }
