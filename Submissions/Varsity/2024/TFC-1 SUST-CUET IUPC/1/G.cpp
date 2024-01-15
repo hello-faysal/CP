@@ -3,7 +3,6 @@ using namespace std;
 
 const int mod = 1e9 + 7;
 
-#define int long long
 int power(int x, long long n, int mod) {
   int ans = 1 % mod;
   while (n > 0) {

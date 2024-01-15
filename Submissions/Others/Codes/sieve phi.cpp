@@ -5,22 +5,22 @@ const int N = 5e6 + 9;
 int spf[N], phi[N];
 
 void sieve_phi() {
-  for(int i = 2; i < N; i++) {
+  for (int i = 2; i < N; i++) {
     spf[i] = i;
   }
-  for(int i = 2; i < N; i++) {
-    if(spf[i] == i) {
-      for(int j = i; j < N; j += i) {
+  for (int i = 2; i < N; i++) {
+    if (spf[i] == i) {
+      for (int j = i; j < N; j += i) {
         spf[j] = min(spf[j], i);
       }
     }
   }
 
-  for(int i = 2; i < N; i++) {
+  for (int i = 2; i < N; i++) {
     int x = i, res = 1;
-    while(x > 1) {
+    while (x > 1) {
       int p = spf[x], pw = 1;
-      while(x % p == 0) {
+      while (x % p == 0) {
         pw *= p;
         x /= spf[x];
       }
