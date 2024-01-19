@@ -1,42 +1,9 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define int long long
 const int N = 1e5 + 9;
 int a[N], b[N];
-
-struct ST {
-  int tree[4 * N];
-  void build(int n, int b, int e) {
-    if(b == e) {
-      tree[n] = 0;
-      return;
-    }
-    int mid = (b + e) >> 1, l = n << 1, r = l + 1;
-    build(l, b, mid);
-    build(r, mid + 1, e);
-    tree[n] = tree[l] + tree[r];
-  }
-  void upd(int n, int b, int e, int i, int x) {
-    if(b > i || e < i) return;
-    if(b == e && b == i) {
-      tree[n] = x;
-      return;
-    }
-    int mid = (b + e) >> 1, l = n << 1, r = l + 1;
-    upd(l, b, mid, i, x);
-    upd(r, mid + 1, e, i, x);
-    tree[n] = tree[l] + tree[r];
-  }
-  int query(int n, int b, int e, int i, int j) {
-    if(b > j || e < i) return 0; 
-    if(b >= i && e <= j) return tree[n];
-    int mid = (b + e) >> 1, l = n << 1, r = l + 1;
-    int L = query(l, b, mid, i, j);
-    int R = query(r, mid + 1, e, i, j);
-    return (L + R); 
-  }
-} st, st2;
+long long pref_a[N], pref_b[N];
 
 int get(int i, int n) {
   return n - i + 1;
@@ -51,27 +18,29 @@ void solve() {
 
   reverse(b + 1, b + n + 1);
 
-  st.build(1, 1, n);
-  st.upd(1, 1, n, 1, 1);
+  pref_a[1] = 1;
   for (int i = 2; i < n; i++) {
     if (abs(a[i] - a[i + 1]) <= abs(a[i] - a[i - 1])) {
-      st.upd(1, 1, n, i, 1);
+      pref_a[i] = 1;
     }
     else {
-      st.upd(1, 1, n, i, a[i + 1] - a[i]);
+      pref_a[i] = a[i + 1] - a[i];
     }
   }
 
-
-  st2.build(1, 1, n);
-  st2.upd(1, 1, n, 1, 1);
+  pref_b[1] = 1;
   for (int i = 2; i < n; i++) {
     if (abs(b[i] - b[i + 1]) <= abs(b[i] - b[i - 1])) {
-      st2.upd(1, 1, n, i, 1);
+      pref_b[i] = 1;
     }
     else {
-      st2.upd(1, 1, n, i, abs(b[i + 1] - b[i]));
+      pref_b[i] = abs(b[i + 1] - b[i]);
     }
+  }
+
+  for (int i = 1; i <= n; i++) {
+    pref_a[i] += pref_a[i - 1];
+    pref_b[i] += pref_b[i - 1];
   }
 
   int m; cin >> m;
@@ -81,12 +50,12 @@ void solve() {
       cout << 0 << '\n';
     }
     else if (l < r) {
-      cout << st.query(1, 1, n, l , r - 1) << '\n';
+      cout << pref_a[r - 1] - pref_a[l - 1] << '\n';
     }
     else {
       l = get(l, n);
       r = get(r, n);
-      cout << st2.query(1, 1, n, l , r - 1) << '\n';
+      cout << pref_b[r - 1] - pref_b[l - 1] << '\n';
     }
   }
 }
@@ -97,7 +66,7 @@ int32_t main() {
 
   int t = 1;
   cin >> t;
-  while(t--) {
+  while (t--) {
     solve();
   }
 
