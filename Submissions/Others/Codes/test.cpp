@@ -1,8 +1,11 @@
-#include <iostream>
+#include <bits/stdc++.h>
 using namespace std;
 
-int main() {
-  
+int32_t main() {
+  ios_base::sync_with_stdio(0);
+  cin.tie(0);
+
+  cout << "here\n";
 
   return 0;
 }
