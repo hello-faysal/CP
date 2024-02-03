@@ -5,42 +5,41 @@ int32_t main() {
   ios_base::sync_with_stdio(0);
   cin.tie(0);
 
-  int n; cin >> n;
-
-  int a[n + 1], mx;
-  for (int i = 1; i < n; i++) {
-    a[i] = i + 1;
-    mx = i + 1;
+  int m, k; cin >> m >> k;
+  vector<int> v;
+  int n = (1 << (m + 1));
+  int x = (1 << m) - 1;
+  for (int i = 0; i <= x; i++) {
+    v.push_back(i);
+    v.push_back(i);
   }
 
-  int o_g = 0, o_sum = 0;
-    for (int j = 1; j < n; j++) {
-      o_g = __gcd(o_g, a[j]);
-      o_sum += a[j];
-    }
-
-  for (int val = mx + 1; val <= 30000; val++) {
-    a[n] = val;
-    int g = __gcd(o_g, val);
-    int sum = o_sum + val;
-    if (g == 1) {
-      bool flag = false;
-      for (int j = 1; j <= n; j++) {
-        if (__gcd(a[j], sum - a[j]) == 1) {
-          flag = true;
+  do {
+    bool ok = true;
+    for (int i = 0; i < n; i++) {
+      int y = v[i];
+      int xr = 0;
+      bool paisi = false;
+      for (int j = i + 1; j < n; j++) {
+        if (v[j] == y) {
+          paisi = true;
           break;
         }
+        xr ^= v[j];
       }
-      if (flag) {
-        continue;
+      if (paisi) {
+        ok &= xr == k;
       }
-      for (int j = 1; j <= n; j++) {
-        cout << a[j] << ' ';
+    }
+    if (ok) {
+      for (auto l : v) {
+        bitset<5> bs(l);
+        cout << l << ' ';
       }
       cout << '\n';
-      return 0;
     }
-  }
+  } while (next_permutation(v.begin(), v.end()));
+  //
 
   return 0;
 }
