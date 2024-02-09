@@ -1,49 +1,33 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
 
-int n;
-const int N = 10;
+#define int long long
+const int N = 1e7 + 9;
 
-void fun(int i, int last, vector<int> &a) {
-  if (i == n + 1) {
-    int g = 0, sum = 0;
-    for (int j = 1; j <= n; j++) {
-      g = __gcd(g, a[j]);
-      sum += a[j];
-    }
-    if (g == 1) {
-      for (int j = 1; j <= n; j++) {
-        if (__gcd(a[j], sum - a[j]) == 1) {
-          return;
-        }
-      }
-      for (int j = 1; j <= n; j++) {
-        cout << a[j] << ' ';
-      }
-      cout << '\n';
-    }
-    return;
-  }
-
-  for (int j = last + 1; j <= 30000; j++) {
-    a[i] = j;
-    fun(i + 1, j, a);
-  }
+long long get_sum(int x) {
+  return (1ll * x * (x + 1)) / 2;
 }
 
 int32_t main() {
   ios_base::sync_with_stdio(0);
   cin.tie(0);
 
-  vector<int> a(N);
+  long long d; cin >> d;
 
-  cin >> n;
-
-  for (int i = 1; i < n; i++) {
-    a[i] = i + 1;
+  vector<pair<int, int>> v;
+  for (int i = 1; i < N; i++) {
+    long long x = get_sum(i);
+    long long y = d - x;
+    if (y <= 0) break;
+    if ((y % i) == 0) {
+      v.push_back({y / i, (y / i) + i});
+    }
   }
 
-  fun(1, 1, a);
+  cout << v.size()<< '\n';
+  for (auto [x, y] : v) {
+    cout << x << ' ' << y << '\n';
+  }
 
   return 0;
 }
