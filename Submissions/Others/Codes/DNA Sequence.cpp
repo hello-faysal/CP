@@ -82,7 +82,7 @@ void solve() {
     cin >> str[i];
   }
 
-  // remove duplicates and strings which is a subsequence of others
+  // remove duplicates and strings which is a subarray of others
   sort(str + 1, str + n + 1, cmp);
   vector<string> vec;
   for (int i = 1; i <= n; i++) {
