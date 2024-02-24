@@ -48,9 +48,9 @@ int32_t main() {
       cout << "Impossible\n";
       return 0;
     }
+    ans += (*f).second + (*s).second;
     se.erase(f);
     se.erase(s);
-    ans += (*f).second + (*s).second;
   }
 
   cout << ans << '\n';
