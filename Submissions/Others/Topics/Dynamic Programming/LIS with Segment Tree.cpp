@@ -43,7 +43,7 @@ int32_t main() {
 
   int n; cin >> n;
   for (int i = 1; i <= n; i++) {
-    cin >> a[i];
+    cin >> a[i]; // a[i] value must be >= 2
   }
 
   st.build(1, 1, M);
