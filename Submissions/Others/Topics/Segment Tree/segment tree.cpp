@@ -7,9 +7,6 @@ int a[N];
 
 struct ST {
   int tree[4 * N];
-  ST() {
-    memset(tree, 0, sizeof(tree));
-  }
   void build(int n, int b, int e) {
     if(b == e) {
       tree[n] = a[b]; // change here
