@@ -3,22 +3,17 @@ using namespace std;
 
 void solve() {
   int n; cin >> n;
-  vector<int> a(n), b(n), c(n);
+  vector<int> a(n), b(n);
   for (auto &x : a) {
     cin >> x;
   }
   for (auto &x : b) {
     cin >> x;
   }
-  c = b;
   sort(a.begin(), a.end());
-  sort(c.begin(), c.end());
-  map<int, int> mp;
-  for (int i = 0; i < n; i++) {
-    mp[c[i]] = a[i];
-  }
-  for (int i = 0; i < n; i++) {
-    cout << mp[b[i]] << ' ';
+  sort(b.begin(), b.end());
+  for (auto x : a) {
+    cout << x << ' ';
   }
   cout << '\n';
   for (auto x : b) {
