@@ -3,41 +3,31 @@ using namespace std;
 
 const int N = 1e5 + 9;
 vector<int> g[N];
-int n, m, k, kata;
+int n, m, k, max_possible_k;
 
 int dfs(int u, int p, int val) {
   int ans = 1;
-  vector<int> vec;
-  for (auto v: g[u]) {
+  for (auto v : g[u]) {
     if (v != p) {
-      vec.push_back(dfs(v, u, val));
+      int x = dfs(v, u, val);
+      if (x < val) ans += x;
+      else max_possible_k++;
     }
   }
-  sort(vec.begin(), vec.end());
-  for (auto x : vec) {
-    if (x < val) {
-      ans += x;
-    }
-    else if (x >= val) {
-      kata++;
-    }
-  }
-  if (u == 1 and ans < val) {
-    kata--;
-  }
+  if (u == 1 and ans < val) max_possible_k--;
   return ans;
 }
 
 bool ok(int val) {
-  kata = 0;
+  max_possible_k = 0;
   dfs(1, 0, val);
-  return kata >= k;
+  return max_possible_k >= k;
 }
 
 void solve() {
   cin >> n >> k;
   m = n - 1;
-  for(int i = 1; i <= m; i++) {
+  for (int i = 1; i <= m; i++) {
     int u, v; cin >> u >> v;
     g[u].push_back(v);
     g[v].push_back(u);
@@ -66,7 +56,7 @@ int32_t main() {
   cin.tie(0);
 
   int t = 1; cin >> t;
-  while(t--) {
+  while (t--) {
     solve();
   }
 
